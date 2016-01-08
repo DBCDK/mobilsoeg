@@ -127,7 +127,11 @@ const WorkTransform = {
     data.work.title = workDOM('//dc:title/text()', true, false);
     data.work.fullTitle = workDOM('//dc:title[@xsi:type="dkdcplus:full"]/text()', true, false);
     data.work.alternativeTitle = workDOM('//dcterms:alternative/text()', true, false);
-    data.work.creator = workDOM('//dc:creator[@xsi:type]/text()', true, false);
+
+    // Creator needs to be very specific, beacuse if no creator exists, it is taken from a relation object,
+    // and this should not happen
+    data.work.creator = workDOM('//opensearch:collection/opensearch:object/dkabm:record/dc:creator[@xsi:type]/text()', true, false);
+
     data.work.contributers = workDOM('//dc:contributor[@xsi:type!="dkdcplus:act"]/text()', false, true);
     data.work.abstract = workDOM('//dcterms:abstract/text()', true, false);
     data.work.isbns = workDOM('//dc:identifier[@xsi:type="dkdcplus:ISBN"]/text()', false, true);
